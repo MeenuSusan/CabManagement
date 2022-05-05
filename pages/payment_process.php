@@ -1,12 +1,12 @@
 <?php
 session_start();
-include('db.php');
-if(isset($_POST['amt']) && isset($_POST['name'])){
-    $amt=$_POST['amt'];
+include('dbcon.php');
+if(isset($_POST['amount']) && isset($_POST['name'])){
+    $amt=$_POST['amount'];
     $name=$_POST['name'];
     $payment_status="pending";
     $added_on=date('Y-m-d h:i:s');
-    mysqli_query($con,"insert into payment(name,amount,payment_status,added_on) values('$name','$amt','$payment_status','$added_on')");
+    mysqli_query($con,"insert into rezpayment(name,amount,payment_status,added_on) values('$name','$amt','$payment_status','$added_on')");
     $_SESSION['OID']=mysqli_insert_id($con);
 }
 
