@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+body{
+    margin: 0%;
+    padding: 0%;
+    background-color: rgb(255, 255, 255);
+}
+h3{
+    padding-bottom: 1vw;
+    font-family: poppins;
+}
+p{
+    line-height: 1.7rem;
+    text-align: justify;
+}
+.hero{
+    width: 100%;
+    height: 92vh;
+    margin-left: 0%;
+    background-image: url("../assets/images/home.png");
+    margin-left: 0%;
+}
+.herocon{
+    width: 35%;
+    height: 58vh;
+    left: 0px;
+    color: rgb(26, 25, 25);
+    position: absolute;
+    background-color: white;
+    margin-left: 0%;
+    padding: 5vw;
+    margin:10vw 5vw 3vw 5vw;
+    
+}
+.about,.fair_calculater,.app_download,.contact{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 3vw;
+    font-family: poppins;
+    margin:1vw 3vw 1vw 3vw ;
+    padding: 3vw 5vw 5vw 5vw;
+    background-color: rgb(255, 255, 255);
+}
+.fair_calculater img,.about img,.app_download img{
+    width: 35vw;
+    height: 23vw;
+}
+.faircalccon input{
+margin-bottom: 2vw;
+width: 29vw;
+}
+.faircalccon p{
+    width: 29vw;
+    
+}
