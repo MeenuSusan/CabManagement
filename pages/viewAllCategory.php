@@ -1,19 +1,21 @@
 <?php
-include 'dbcon.php';
+
 session_start();
-$uname = $_SESSION['userName'];
-$email = $_SESSION['userEmail'];
-$photo = $_SESSION['proPic'];
-$currentUserId = $_SESSION['userId'];
-$res = mysqli_query($con, "SELECT * from `register` where email='$email' AND username='$uname'");
-while ($r = mysqli_fetch_array($res)) {
-  $ademail = $r['email'];
-  $adname = $r['username'];
-}
+
 if (isset($_SESSION["session_id"]) != session_id()) {
-  header("Location:home.php");
+  header("Location:../index.php");
   die();
 } else {
+  include 'dbcon.php';
+  $uname = $_SESSION['userName'];
+  $email = $_SESSION['userEmail'];
+  $photo = $_SESSION['proPic'];
+  $currentUserId = $_SESSION['userId'];
+  $res = mysqli_query($con, "SELECT * from `register` where email='$email' AND username='$uname'");
+  while ($r = mysqli_fetch_array($res)) {
+    $ademail = $r['email'];
+    $adname = $r['username'];
+  }
 ?>
 
   <!doctype html>
@@ -159,7 +161,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
+            <h5 class="modal-title">Edit Category</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

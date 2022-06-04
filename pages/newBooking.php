@@ -2,7 +2,7 @@
 include 'dbcon.php';
 session_start();
 $currentUserId = $_SESSION['userId'];
-
+$photo=$_SESSION['proPic'];
 if (isset($_POST['confirm'])) {
   $source = $_POST['from'];
   $destin = $_POST['to'];
@@ -10,11 +10,11 @@ if (isset($_POST['confirm'])) {
   $date = $_POST['date'];
   $amnt = $_POST['total'];
   $distance = $_POST['distance'];
-  $vehicle_id = $_POST['vehicle_id'];
+  $category = $_POST['vehicle_category'];
 
 
   //insert into booking table
-  $sql = "INSERT INTO `booking`(`pickup`, `destination`, `booking_time`, `date`, `distance`, `vehicleAllocated`, `amount`, `user_id`) VALUES ('$source','$destin','$tim','$date','$distance','$vehicle_id','$amnt','$currentUserId')";
+  $sql = "INSERT INTO `booking`(`pickup`, `destination`, `booking_time`, `date`, `distance`, `vehicleCategory`, `amount`, `user_id`) VALUES ('$source','$destin','$tim','$date','$distance','$category','$amnt','$currentUserId')";
   $result = mysqli_query($con, $sql);
   $booking_id = mysqli_insert_id($con);
   if ($result) {

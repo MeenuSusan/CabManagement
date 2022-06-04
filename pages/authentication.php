@@ -64,18 +64,13 @@ include('dbcon.php');
            // echo '<script>alert("g999gh")</script>';
 
           
-            $extension = pathinfo($_FILES["vehi_img"]["name"], PATHINFO_EXTENSION);
-            if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif') {
-                $ImageUpload = $_FILES["vehi_img"]["name"];
-                move_uploaded_file($_FILES["vehi_img"]["tmp_name"], "../assets/images/vehicle" . $_FILES["vehi_img"]["name"]);
-
-            } 
-            $ImageUpload = $_FILES["vehi_img"]["name"];
-            move_uploaded_file($_FILES["vehi_img"]["tmp_name"], "../assets/images/vehicle" . $_FILES["vehi_img"]["name"]);
+           move_uploaded_file($_FILES['vehi_img']['tmp_name'],"../assets/uploads/".$_FILES['vehi_img']['name']);
+           $insertImg="INSERT INTO register(profile_pic) values('$propic')where id=$currentUserId";
+           $result=mysqli_query($con,$insertImg);
           
 
-            $vehicleDB="INSERT INTO `vehicle`(`u_id`, `reg_no`, `model_company`, `fuel`, `seating_capacity`, `color`, `engine_no`, `chaise_no`, `reg_validity`, `insurence_scheme`, `insurence_validity`, `tax`, `pollution`, `vehicle_img`, `rc_doc`) 
-            VALUES ('$vehicleID','$reg_no','$company','$fuels','$seatcap','$color','$engine','$chaise','$reg_val','$ins_scheme','$ins_val','$tax_val','$po_val',' $ImageUpload','$rc_doc')";
+            $vehicleDB="INSERT INTO `vehicle`(`u_id`, `reg_no`, `model_company`, `fuel`, `seating_capacity`, `vehicle_img`, `engine_no`, `chaise_no`, `reg_validity`, `insurence_scheme`, `insurence_validity`, `tax`, `pollution`,`rc_doc`) 
+            VALUES ('$vehicleID','$reg_no','$company','$fuels','$seatcap','$propic','$engine','$chaise','$reg_val','$ins_scheme','$ins_val','$tax_val','$po_val','$rc_doc')";
              $vehicleDBResult = mysqli_query($con, $vehicleDB);
              if($vehicleDBResult)
              {
@@ -123,22 +118,49 @@ include('dbcon.php');
                     die();
                 }
                 else if ($userData['type'] == 2) {
-                    header("Location: ./driverDashboard.php");
-                    die();
+                    if($userData['status']==1)
+                    {
+                        header("Location: ./driverDashboard.php");
+                        die();
+                    }
+                    else if($userData['status']==2)
+                    {
+                        $_SESSION['loginMessage'] = "Your account is not activated yet. Please contact admin";
+                        header("Location: ./login.php");
+                    }
+                    else{
+                        $_SESSION['loginMessage'] = "Your account is blocked. Please contact admin";
+                        header("Location: ./login.php");
+                    }
                 }
                 else if ($userData['type'] == 3) {
-                    header("Location: ./vehicleOwnerDashboard.php");
-                    die();
+                    if($userData['status']==1)
+                    {
+                        header("Location: ./vehicleOwnerDashboard.php");
+                        die();
+                    }
+                    else if($userData['status']==2)
+                    {
+                        $_SESSION['loginMessage'] = "Your account is not activated yet. Please contact admin";
+                        header("Location: ./login.php");
+                    }
+                    else{
+                        $_SESSION['loginMessage'] = "Your account is blocked. Please contact admin";
+                        header("Location: ./login.php");
+                    }
+                    
                 }
                 
             } else {
-                $_SESSION['loginMessage'] = "User Login Failed";
-                //header("Location: ../index.php");
+                $_SESSION['loginMessage'] = "Invalid user";
+                //echo '<script>swal("Oops!", "Incorrect Username or Password", "error");</script>';
+               header("Location: ./login.php");
+                
                 die();
             }
         } else {
             $_SESSION['loginMessage'] = "Please fill all fields";
-            header("Location: ../index.php");
+            header("Location:./login.php");
             die();
         }
     }

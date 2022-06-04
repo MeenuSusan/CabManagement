@@ -26,7 +26,7 @@
                   <input type="password" 
                   class="form-control" 
                   id="exampleInputPassword1"
-                  name="confirm_password"" 
+                  name="confirm_password"
                   placeholder="Password">
                 <button type="submit"
                  class="btn btn-secondary mt-4 btn-lg btn-block"

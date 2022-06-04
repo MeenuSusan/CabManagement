@@ -1,20 +1,25 @@
 <?php
-include 'dbcon.php';
+
 session_start();
-$uname = $_SESSION['userName'];
-$email = $_SESSION['userEmail'];
-$photo = $_SESSION['proPic'];
-$currentUserId = $_SESSION['userId'];
-$res = mysqli_query($con, "SELECT * from `register` where email='$email' AND username='$uname'");
-while ($r = mysqli_fetch_array($res)) {
-  $ademail = $r['email'];
-  $adname = $r['username'];
-}
+
 if (isset($_SESSION["session_id"]) != session_id()) {
-  header("Location:home.php");
+  header("Location:../index.php");
   die();
 } else {
+  include 'dbcon.php';
+  $s_id = $_SESSION['session_id'];
+  $uname = $_SESSION['userName'];
+  $email = $_SESSION['userEmail'];
+  $photo = $_SESSION['proPic'];
+  $currentUserId = $_SESSION['userId'];
+
+  $res = mysqli_query($con, "SELECT * from `register` where email='$email' AND username='$uname'");
+  while ($r = mysqli_fetch_array($res)) {
+    $ademail = $r['email'];
+    $adname = $r['username'];
+  }
 ?>
+
 
   <!doctype html>
   <html lang="en">
@@ -25,188 +30,215 @@ if (isset($_SESSION["session_id"]) != session_id()) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'>
-    </link>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" href="../../images/about_us.svg" type="image/x-icon">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Payment History</title>
+    <title>Hello, world!</title>
     <style>
-        .profileupdate{
-            width: 60vw;
-            height: 50vh;
-            position: absolute;
-            top: 8vw;
-            left: 25vw;
-        }
-        .profile-pic {
+      .pro-con {
+        position: absolute;
+        top: 7vw;
+        left: 25vw;
+        width: 50vw;
+      }
 
-	 color: transparent;
-	 transition: all 0.3s ease;
-	 display: flex;
-	 justify-content: center;
-	 align-items: center;
-	 position: relative;
-	 transition: all 0.3s ease;
-}
- .profile-pic input {
-	 display: none;
-}
- .profile-pic img {
-     margin: 0vw;
-	 position: absolute;
-	 object-fit: cover;
-	 width: 150px;
-	 height: 150px;
-  
-	 box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
-	 border-radius: 100px;
-	 z-index: 0;
-}
- .profile-pic .-label {
-	 cursor: pointer;
-	 height: 150px;
-	 width: 150px;
-}
- .profile-pic:hover .-label {
-	 display: flex;
-	 justify-content: center;
-	 align-items: center;
-	 background-color: rgba(0, 0, 0, 0.8);
-	 z-index: 10000;
-	 color: #fafafa;
-	 transition: background-color 0.2s ease-in-out;
-	 border-radius: 100px;
-	 margin-bottom: 0;
-}
- .profile-pic span {
-	 display: inline-flex;
-	 padding: 0.2em;
-	 height: 2em;
-}
+      .profileupdate {
+        width: 60vw;
+        height: 50vh;
+        position: absolute;
+        top: 8vw;
+        left: 25vw;
+      }
 
- 
+      .profile-pic {
+
+        color: transparent;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .profile-pic input {
+        display: none;
+      }
+
+      .profile-pic img {
+        margin-left: 10vw;
+
+        position: absolute;
+        object-fit: cover;
+        width: 165px;
+        height: 165px;
+
+        box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+        border-radius: 100px;
+        z-index: 0;
+      }
+
+      .profile-pic .-label {
+        cursor: pointer;
+        height: 150px;
+        width: 150px;
+      }
+
+      .profile-pic:hover .-label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 10000;
+        color: #fafafa;
+        transition: background-color 0.2s ease-in-out;
+        border-radius: 100px;
+        margin-bottom: 0;
+      }
+
+      .profile-pic span {
+        display: inline-flex;
+        padding: 0.2em;
+        height: 2em;
+      }
     </style>
   </head>
 
   <body>
 
     <?php
-    include "../assets/templates/driversidebar.php";
+    include "../assets/templates/adminsidebar.php";
 
     ?>
-    <div class="profileupdate">
-    <form action="#"method="POST" enctype="multipart/form-data">
-<?php
-                                    // echo "<script>alert('$taskId');</script>";
-                                    $sql = "SELECT * FROM register WHERE id = $currentUserId";
-                                    $result = mysqli_query($con, $sql);
-                                    $row = mysqli_fetch_assoc($result);
-                                    $name = $row['username'];
-                                    $email = $row['email'];
-                                    $mobile = $row['mobile'];
-                                   
-									?>
-<div class="container-profile">
-<div class="row gutters">
-<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-<div class="card h-70 w-100">
-	<div class="card-body">
-		<div class="account-settings">
-			<div class="user-profile">
-			<div class="profile-pic pr-4">
-  <label class="-label" for="file">
-    <span class="glyphicon glyphicon-camera"></span>
-    <span>Change Image</span>
-  </label>
-  <?php
-   echo '
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container pro-con">
+      <div class="row flex-lg-nowrap">
+
+        <form action="./updateProfileDetails.php" method="POST" enctype="multipart/form-data">
+          <?php
+          // echo "<script>alert('$taskId');</script>";
+          $sql = "SELECT * FROM register WHERE id = $currentUserId";
+          $result = mysqli_query($con, $sql);
+          $row = mysqli_fetch_assoc($result);
+          $name = $row['username'];
+          $emails = $row['email'];
+          $mobile = $row['mobile'];
+          $propic = $row['profile_pic'];
+
+          ?>
+          <div class="col">
+            <div class="row">
+              <div class="col mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="e-profile">
+                      <div class="row">
+                        <div class="col-12 col-sm-auto mb-3">
+                          <div class="account-settings">
+                            <div class="user-profile col-12">
+                              <div class="profile-pic">
+                                <label class="-label" for="file">
+                                  <span class="glyphicon glyphicon-camera"></span>
+                                  <span>Change Image</span>
+                                </label>
+                                <?php
+                                echo '
   <input id="file" type="file"name="uploadfile"  onchange="loadFile(event)"/>
-  <img src="./assets/uploads/' . $propic . '" alt="" id="upload"accept="image/x-png,image/jpeg" width="200" />
+  <img src="../assets/uploads/' . $propic . '" alt="" id="upload"accept="image/x-png,image/jpeg" width="200" />
 </div><br>
 
 				<h5 class="user-name">' . $name . '</h5>
-				<h6 class="user-email">' . $email . '</h6>
+				<h6 class="user-email">' . $emails . '</h6>
 			</div>
 			
-		</div>
-	</div>
-</div>
-</div>
-<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-<div class="card h-70 w-50">
-	<div class="card-body">
-	
-			<div class="form-group">
-              <label for="location">UserName</label>
-              <input type="text" name="uname" id="uname" value="' . $name . '" class="form-control" autocomplete="off">
+		</div> ' ?>
 
-            </div>
-			<div class="form-group">
-              <label for="location">Email_ID</label>
-			  <input type="email" name="email" id="email" value="' . $email . '" class="form-control" autocomplete="off">
+                                <div class="tab-content pt-3">
+                                  <div class="tab-pane active">
+                                    <form class="form" novalidate="">
+                                      <div class="row">
+                                        <div class="col">
+                                          <div class="row">
+                                            <div class="col">
+                                              <div class="form-group">
+                                                <label>UserName</label>
+                                                <?php echo '<input class="form-control" type="text" name="uname" value="' . $name . '"> ' ?>
+                                              </div>
+                                            </div>
+                                            <div class="col">
+                                              <div class="form-group">
+                                                <label>Mobile Number</label>
+                                                <?php echo '<input class="form-control" type="tel" name="mobile" value="' . $mobile . '"> ' ?>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col">
+                                              <div class="form-group">
+                                                <label>Email</label>
+                                                <?php echo '<input class="form-control" type="email" name="email" value="' . $emails . '"> ' ?>
+                                              </div>
+                                            </div>
+                                          </div>
 
-            </div>
-			<div class="form-group">
-              <label for="location">Mobile Number</label>
-			  <input type="text" name="mobile" id="mob" value="' . $mobile . '" class="form-control" autocomplete="off" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10">
+                                        </div>
+                                      </div>
+                                      <?php
+                                      // if(isset($_POST['proUpdate'])){
+                                      //   $name = $_POST['uname'];
+                                      //   $emails= $_POST['email'];
+                                      //   $mobile = $_POST['mobile'];
+                                      //   $propic=$_FILES['uploadfile']['name'];
+                                      //   move_uploaded_file($_FILES['uploadfile']['tmp_name'],"../assets/uploads/".$_FILES['uploadfile']['name']);
+                                      //   $insertImg="INSERT INTO register(profile_pic) values('$propic')where id=$currentUserId";
+                                      //   $result=mysqli_query($con,$insertImg);
 
-            </div>'?>
+                                      //   // upddate profile
+                                      //   $sql6 = "UPDATE register SET username='$name', email='$email', mobile='$mobile',profile_pic='$propic' WHERE id='$currentUserId'";
+                                      //   $result1 = mysqli_query($con, $sql6);
+                                      //   if($result1){
+                                      //     echo "<script>alert('Profile Updated Successfully');</script>";
+                                      //   }
+                                      //   else{
+                                      //     echo "<script>alert('Profile Not Updated');</script>";
+                                      //   }
+                                      // }
+                                      ?>
+                                      <div class="row">
+                                        <div class="col d-flex justify-content-end">
+                                          <input type="submit" id="submit" name="proUpdate" value="Save All Changes" class="btn btn-primary"></input>
+                                        </div>
+                                      </div>
+                                    </form>
 
-		
-		<div class="row gutters">
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-				<div class="text-right">
-          <!-- <?php
-          if(isset($_POST['proUpdate'])){
-            $name = $_POST['uname'];
-            $email = $_POST['email'];
-            $mobile = $_POST['mobile'];
-            $propic=$_FILES['uploadfile']['name'];
-            move_uploaded_file($_FILES['uploadfile']['tmp_name'],"../assets/uploads/".$_FILES['uploadfile']['name']);
-            // upddate profile
-            $sql6 = "UPDATE register SET username='$name', email='$email', mobile='$mobile',profile_pic='$propic' WHERE id='$currentUserId'";
-            $result1 = mysqli_query($con, $sql6);
-            if($result1){
-              echo "<script>alert('Profile Updated Successfully');</script>";
-            }
-            else{
-              echo "<script>alert('Profile Not Updated');</script>";
-            }
-          }?> -->
-					<button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
-					<input type="submit" id="submit" name="proUpdate" class="btn btn-primary"></input>
-				</div>
-			</div>
-		</div>
-	</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
 
-</div>
-</div>
-</div>
-</div>
-</form>
 
-    </div>
-   
+                      </div>
 
+                    </div>
+
+                  </div>
+                </div>
+
+
+
+                <!-- Optional JavaScript -->
+                <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 
   </html>
 <?php
-}
-?>
 
-<?php
-function hoursandmins($time, $format = '%02d:%02d')
-{
-    if ($time < 1) {
-        return;
-    }
-    $hours = floor($time / 60);
-    $minutes = ($time % 60);
-    return sprintf($format, $hours, $minutes);
 }
-
 ?>

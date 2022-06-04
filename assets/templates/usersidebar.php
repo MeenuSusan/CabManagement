@@ -15,11 +15,11 @@
         </div>
           <div class="dropdowns btn-group dropleft">
                 <button class="btn_img btn-default" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="../assets/images/dp.svg" alt="user">
+                <?php echo' <img src="../assets/uploads/' . $photo . '" alt="" id="upload"accept="image/x-png,image/jpeg"/> '?>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="../pages/profileUpdate.php">Profile</a>
-                  <a class="dropdown-item" href="../pages/adminChangePassword.php">Change Password</a>
+                  <a class="dropdown-item" href="../pages/userProfile.php">Profile</a>
+                  <a class="dropdown-item" href="../pages/userChangePassword.php">Change Password</a>
                   <a class="dropdown-item" href="../pages/signout.php">Signout</a>
                 </div>
               </div>
@@ -30,7 +30,7 @@
       <section>
         <nav>
             <div class="profile">
-                <img src="../assets/images/dp.svg" alt="user">
+            <?php echo' <img src="../assets/uploads/' . $photo . '" alt="" id="upload"accept="image/x-png,image/jpeg"/> '?>
                 <h4><?php echo $uname ?></h4>
                 <h6><?php echo $email ?></h6>
                 <p>
@@ -49,7 +49,7 @@
                 </div>
               </div></li>
   
-              <li><button class="btn_1"><span><i class="fa fa-user-circle"></span></i>My Profile</button></li>
+              <li><a href="../pages/userProfile.php"><button class="btn_1"><span><i class="fa fa-user-circle"></span></i>My Profile</button></a></li>
               <li><div class="dropdown">
                 <button class="btn_1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span><i class="fa fa-envelope"></span></i>Email

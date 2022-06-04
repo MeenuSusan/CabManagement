@@ -3,14 +3,15 @@ include 'dbcon.php';
 session_start();
 $uname = $_SESSION['userName'];
 $email = $_SESSION['userEmail'];
-
+$photo=$_SESSION['proPic'];
+$currentUserId = $_SESSION['userId'];
 $res = mysqli_query($con, "SELECT * from `register` where email='$email' AND username='$uname'");
 while ($r = mysqli_fetch_array($res)) {
   $ademail = $r['email'];
   $adname = $r['username'];
 }
 if (isset($_SESSION["session_id"]) != session_id()) {
-  header("Location:home.php");
+  header("Location:../index.php");
   die();
 } else {
 ?>

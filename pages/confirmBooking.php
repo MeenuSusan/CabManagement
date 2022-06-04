@@ -1,32 +1,35 @@
 <?php
-include 'dbcon.php';
-session_start();
-$currentUserId = $_SESSION['userId'];
-$uname = $_SESSION['userName'];
-$email = $_SESSION['userEmail'];
 
-$res = mysqli_query($con, "SELECT * from `register` where email='$email' AND username='$uname'");
-while ($r = mysqli_fetch_array($res)) {
-  $ademail = $r['email'];
-  $adname = $r['username'];
-}
+session_start();
+
 if (isset($_SESSION["session_id"]) != session_id()) {
-  header("Location:home.php");
+  header("Location:../index.php");
   die();
 } else {
-  
-    $source = $_POST['from'];
-    $destin = $_POST['to'];
-    $tim = $_POST['time'];
-    $date = $_POST['date'];
-    $amnt = $_POST['total'];
-    $distance = $_POST['distance'];
-    $vehicle_name = $_POST['vehicle_name'];
-    $vehicle_id = $_POST['vehicle_id'];
-    $vehicle_category = $_POST['vehicle_category'];
-    $vehicle_seating_capacity = $_POST['vehicle_seating_capacity'];
-    //echo '<script type="text/javascript"> alert("jii")</script>';
-  
+  include 'dbcon.php';
+  $currentUserId = $_SESSION['userId'];
+  $uname = $_SESSION['userName'];
+  $email = $_SESSION['userEmail'];
+  $photo = $_SESSION['proPic'];
+  $currentUserId = $_SESSION['userId'];
+  $res = mysqli_query($con, "SELECT * from `register` where email='$email' AND username='$uname'");
+  while ($r = mysqli_fetch_array($res)) {
+    $ademail = $r['email'];
+    $adname = $r['username'];
+  }
+
+  $source = $_POST['from'];
+  $destin = $_POST['to'];
+  $tim = $_POST['time'];
+  $date = $_POST['date'];
+  $amnt = $_POST['total'];
+  $distance = $_POST['distance'];
+  $vehicle_name = $_POST['vehicle_name'];
+  $vehicle_id = $_POST['vehicle_id'];
+  $vehicle_category = $_POST['vehicle_category'];
+  $vehicle_seating_capacity = $_POST['vehicle_seating_capacity'];
+  //echo '<script type="text/javascript"> alert("jii")</script>';
+
 ?>
 
 
@@ -60,7 +63,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
     <div class="main-booking-container" style="width: 35vw;">
 
       <div class="container">
-        <form method="post" action="#" class="bc-container">
+        <form method="post" action="newBooking.php" class="bc-container">
           <h1>Confirm Booking</h1>
           <table>
 
@@ -102,17 +105,16 @@ if (isset($_SESSION["session_id"]) != session_id()) {
             </tr>
           </table>
 
-          <input type="hidden" name="from" value="<?php echo $source;?>">
-          <input type="hidden" name="to" value="<?php echo $destin;?>">
-          <input type="hidden" name="date" value="<?php echo $date;?>">
-          <input type="hidden" name="time" value="<?php echo $tim;?>">
-          <input type="hidden" name="distance" value="<?php echo $distance;?>">
-          <input type="hidden" name="total" id="total" value="<?php echo $amnt;?>">
-          <input type="hidden" name="vehicle_id" value="<?php echo $vehicle_id;?>">
+          <input type="hidden" name="from" value="<?php echo $source; ?>">
+          <input type="hidden" name="to" value="<?php echo $destin; ?>">
+          <input type="hidden" name="date" value="<?php echo $date; ?>">
+          <input type="hidden" name="time" value="<?php echo $tim; ?>">
+          <input type="hidden" name="distance" value="<?php echo $distance; ?>">
+          <input type="hidden" name="total" id="total" value="<?php echo $amnt; ?>">
+          <input type="hidden" name="vehicle_id" value="<?php echo $vehicle_id; ?>">
 
           <!-- <button type="button" name="confirm" class="btn btn1 btn-dark col-5"><a href="../examples/booking_successful.php">Confirm Now</a></button>-->
           <button type="submit" name="confirm" class="btn btn1 btn-dark col-5">Confirm Now</button>
-          <input type="button"class="btn btn1 btn-dark col-5" name="btn" id="btn" value="Pay Now" onclick="pay_now()"/>
         </form>
 
       </div>
@@ -124,50 +126,48 @@ if (isset($_SESSION["session_id"]) != session_id()) {
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-    function pay_now(){
-        var name=jQuery('#name').val();
-        var amt=jQuery('#total').val();
-        
-         jQuery.ajax({
-               type:'post',
-               url:'payment_process.php',
-               data:"amt="+amt+"&name="+name,
-               success:function(result){
-                   var options = {
-                        "key": "rzp_test_fXhZr7JtuE5nxg", 
-                        "amount": amt*100, 
-                        "currency": "INR",
-                        "name": "Ezy Cabs",
-                        "description": "Test Transaction",
-                        "image": "https://image.freepik.com/free-vector/logo-sample-text_355-558.jpg",
-                        "handler": function (response){
-                           jQuery.ajax({
-                               type:'post',
-                               url:'payment_process.php',
-                               data:"payment_id="+response.razorpay_payment_id,
-                               success:function(result){
-                                   window.location.href="thank_you.php";
-                               }
-                           });
-                        }
-                    };
-                    var rzp1 = new Razorpay(options);
-                    rzp1.open();
-               }
-           });
-        
-        
-    }
-</script>
- 
-    
+      function pay_now() {
+        var name = jQuery('#name').val();
+        var amt = jQuery('#total').val();
+
+        jQuery.ajax({
+          type: 'post',
+          url: 'payment_process.php',
+          data: "amt=" + amt + "&name=" + name,
+          success: function(result) {
+            var options = {
+              "key": "rzp_test_fXhZr7JtuE5nxg",
+              "amount": amt * 100,
+              "currency": "INR",
+              "name": "Ezy Cabs",
+              "description": "Test Transaction",
+              "image": "https://image.freepik.com/free-vector/logo-sample-text_355-558.jpg",
+              "handler": function(response) {
+                jQuery.ajax({
+                  type: 'post',
+                  url: 'payment_process.php',
+                  data: "payment_id=" + response.razorpay_payment_id,
+                  success: function(result) {
+                    window.location.href = "thank_you.php";
+                  }
+                });
+              }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+          }
+        });
+
+
+      }
+    </script>
+
+
   </body>
 
   </html>
 <?php
 }
 ?>
-
-

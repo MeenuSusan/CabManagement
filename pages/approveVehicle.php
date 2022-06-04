@@ -1,6 +1,6 @@
 <?php
-include('dbcon.php');
 session_start();
+include('dbcon.php');
 if(isset($_POST['approve'])){
     //$t=$_POST['vehicle_id'];
     //$s_id=$_SESSION['session_id'];

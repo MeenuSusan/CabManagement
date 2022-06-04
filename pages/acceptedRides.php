@@ -19,7 +19,7 @@ while ($r = mysqli_fetch_array($res)) {
   $adname = $r['username'];
 }
 if (isset($_SESSION["session_id"]) != session_id()) {
-  header("Location:home.php");
+  header("Location:../index.php");
   die();
 } else {
 ?>
@@ -73,43 +73,56 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                   </thead>
                   <tbody>
                     <?php
-                    $res = mysqli_query($con, "SELECT id, pickup, destination, TIME_FORMAT(booking_time, '%h:%i %p') as booking_time, date, amount, bookingStatus, action, vehicleAllocated,distance
-                  FROM `booking`
-                   WHERE  `driverAllocated`='$currentUserId' AND `bookingStatus`='1'");
+                    $sql = "SELECT booking.id, booking.pickup, booking.destination, TIME_FORMAT(booking.booking_time, '%h:%i %p') as booking_time, booking.date, booking.amount, booking.bookingStatus, booking.action, booking.vehicleAllocated,booking.distance FROM booking JOIN vehicle ON booking.vehicleAllocated = vehicle.id WHERE vehicle.driverAllocated=$currentUserId AND booking.bookingStatus=1;";
+                    $res = mysqli_query($con, $sql);
 
+                    if(mysqli_num_rows($res) > 0){
+                      while ($r = mysqli_fetch_array($res)) {
 
-                    while ($r = mysqli_fetch_array($res)) {
-
-                      $pickup_location = $r['pickup'];
-                      $destination_location = $r['destination'];
-                      $time = $r['booking_time'];
-                      $date = $r['date'];
-                      $amount = $r['amount'];
-                      $status = ($r['bookingStatus'] == 1) ? '' : 'disabled';
-                      $buttonText = ($r['bookingStatus'] == 0) ? 'Cancelled' : 'Cancel';
-                      $actionStatusText = ($r['action'] == 0) ? 'Mark as completed' : 'Completed';
-                      $actionStatus = ($r['action'] == 0) ? '' : 'disabled';
-                      $bookingId = $r['id'];
-                    ?>
-                      <tr>
-                        <td><?php echo  $pickup_location; ?></td>
-                        <td><?php echo $destination_location; ?></td>
-
-
-                        <td><?php echo $date; ?></td>
-                        <td><?php echo  $time; ?></td>
-
-                        <td class="tAmt"><?php echo $amount; ?></td>
-
-
-                        <td>
-                          <Button type="button" name="setStatus" id="setStatus" class="btn btn-danger setStatus" <?php echo $status;?> <?php echo $actionStatus;?> value="<?php echo $bookingId?>"><?php echo $buttonText;?></Button> 
-                          <Button type="button" name="setAction" id="setAction" class="btn btn-success setAction" <?php echo $actionStatus;?> value="<?php echo $bookingId?>"><?php echo $actionStatusText;?></Button> 
-                        </td>
-
-                      </tr>
-                    <?php
-
+                        $pickup_location = $r['pickup'];
+                        $destination_location = $r['destination'];
+                        $time = $r['booking_time'];
+                        $date = $r['date'];
+                        $amount = $r['amount'];
+                        $status = ($r['bookingStatus'] == 1) ? '' : 'disabled';
+                        $buttonText = ($r['bookingStatus'] == 0) ? 'Cancelled' : 'Cancel';
+                        if($r['action'] == 0) {
+                          $actionStatusText = 'Mark as completed';
+                        } else if($r['action'] == 2){
+                          $actionStatusText = 'Cancelled by user';
+                          $cancelBtnVisibility = "display:none";
+                        } else {
+                          $actionStatusText = 'Completed';
+                        }
+                        $actionStatus = ($r['action'] == 0) ? '' : 'disabled';
+                        $bookingId = $r['id'];
+                      ?>
+                        <tr>
+                          <td><?php echo  $pickup_location; ?></td>
+                          <td><?php echo $destination_location; ?></td>
+  
+  
+                          <td><?php echo $date; ?></td>
+                          <td><?php echo  $time ?></td>
+  
+                          <td class="tAmt"><?php echo $amount; ?></td>
+  
+  
+                          <td>
+                            <Button type="button" name="setStatus" id="setStatus" class="btn btn-danger setStatus" style="<?php echo $cancelBtnVisibility;?>" <?php echo $status;?> <?php echo $actionStatus;?> value="<?php echo $bookingId?>"><?php echo $buttonText;?></Button> 
+                            <Button type="button" name="setAction" id="setAction" class="btn btn-success setAction" <?php echo $actionStatus;?> value="<?php echo $bookingId?>"><?php echo $actionStatusText;?></Button> 
+                          </td>
+  
+                        </tr>
+                      <?php
+  
+                      }
+                    }else{
+                      echo '
+                        <tr>
+                          <td colspan="6">No data found</td>
+                        </tr>
+                      ';
                     }
                     ?>
                     </thead>

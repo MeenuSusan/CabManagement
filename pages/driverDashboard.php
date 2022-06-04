@@ -1,19 +1,19 @@
 <?php
-include 'dbcon.php';
 session_start();
-$uname = $_SESSION['userName'];
-$email = $_SESSION['userEmail'];
-$photo = $_SESSION['proPic'];
-
-$res = mysqli_query($con, "SELECT * from `register` where email='$email' AND username='$uname'");
-while ($r = mysqli_fetch_array($res)) {
-  $ademail = $r['email'];
-  $adname = $r['username'];
-}
 if (isset($_SESSION["session_id"]) != session_id()) {
-  header("Location:home.php");
+  header("Location:../index.php");
   die();
 } else {
+  include 'dbcon.php';
+  $uname = $_SESSION['userName'];
+  $email = $_SESSION['userEmail'];
+  $photo = $_SESSION['proPic'];
+  $currentUserId = $_SESSION['userId'];
+  $res = mysqli_query($con, "SELECT * from `register` where email='$email' AND username='$uname'");
+  while ($r = mysqli_fetch_array($res)) {
+    $ademail = $r['email'];
+    $adname = $r['username'];
+  }
 ?>
 
   <!doctype html>
@@ -65,38 +65,43 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                   </thead>
                   <tbody>
                     <?php
-                    $res = mysqli_query($con, "SELECT id, pickup, destination, TIME_FORMAT(booking_time, '%h:%i %p') as booking_time, date, amount, bookingStatus, action, vehicleAllocated,distance
-                  FROM `booking`
-                   WHERE  `bookingStatus`=0 AND `action` != 2");
+                    $selectCarId = "SELECT `category` FROM `vehicle` WHERE `driverAllocated` = '$currentUserId'";
+                    $sql = "SELECT id, pickup, destination, TIME_FORMAT(booking_time, '%h:%i %p') as booking_time, date, amount, bookingStatus, action, vehicleAllocated,distance
+                    FROM `booking`
+                     WHERE  `bookingStatus`=0 AND `action` != 2 AND `payment_status`=1 AND `vehicleCategory` = ($selectCarId)";
+                    $res = mysqli_query($con, $sql);
 
+                    if (mysqli_num_rows($res) > 0) {
+                      while ($r = mysqli_fetch_array($res)) {
 
-                    while ($r = mysqli_fetch_array($res)) {
-
-                      $pickup_location = $r['pickup'];
-                      $destination_location = $r['destination'];
-                      $time = $r['booking_time'];
-                      $date = $r['date'];
-                      $amount = $r['amount'];
-                      $status = ($r['bookingStatus'] != 1) ? '' : 'disabled';
-                      $buttonText = ($r['bookingStatus'] != 1) ? 'Accept' : 'Accepted';
-                      $bookingId = $r['id'];
+                        $pickup_location = $r['pickup'];
+                        $destination_location = $r['destination'];
+                        $time = $r['booking_time'];
+                        $date = $r['date'];
+                        $amount = $r['amount'];
+                        $status = ($r['bookingStatus'] != 1) ? '' : 'disabled';
+                        $buttonText = ($r['bookingStatus'] != 1) ? 'Accept' : 'Accepted';
+                        $bookingId = $r['id'];
                     ?>
-                      <tr>
-                        <td><?php echo  $pickup_location; ?></td>
-                        <td><?php echo $destination_location; ?></td>
+                        <tr>
+                          <td><?php echo  $pickup_location; ?></td>
+                          <td><?php echo $destination_location; ?></td>
 
 
-                        <td><?php echo $date; ?></td>
-                        <td><?php echo  $time; ?></td>
+                          <td><?php echo $date; ?></td>
+                          <td><?php echo  $time; ?></td>
 
-                        <td>Rs&nbsp;<?php echo  $amount; ?></td>
+                          <td>Rs&nbsp;<?php echo  $amount; ?></td>
 
 
-                        <td><Button type="button" name="setStatus" id="setStatus" class="btn btn-success setStatus" <?php echo $status;?> value="<?php echo $bookingId?>"><?php echo $buttonText;?></Button> </td>
+                          <td><Button type="button" name="setStatus" id="setStatus" class="btn btn-success setStatus" <?php echo $status; ?> value="<?php echo $bookingId ?>"><?php echo $buttonText; ?></Button> </td>
 
-                      </tr>
+                        </tr>
                     <?php
 
+                      }
+                    } else {
+                      echo '<tr><td colspan="6">No data found</td></tr>';
                     }
                     ?>
                     </thead>
@@ -108,7 +113,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -123,7 +128,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
             method: "POST",
             data: {
               id: id,
-              status:1
+              status: 1
             },
             success: function(data) {
               // swal({

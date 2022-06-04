@@ -1,6 +1,7 @@
 <?php
-include('dbcon.php');
 session_start();
+include('dbcon.php');
+
     $s_id=$_SESSION['session_id'];
     $s=$_GET['driver_id'];
 
