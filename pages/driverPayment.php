@@ -57,7 +57,9 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                   <thead>
                     <tr>
                       <th>S.No</th>
+
                       <th>Driver Name</th>
+                      <th>Vehicle Name</th>
                       <th>Booking</th>
                       <th>Date</th>
                       <th>Ride Duration</th>
@@ -67,18 +69,24 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                   </thead>
                   <tbody>
                     <?php
-                    $res = mysqli_query($con, "SELECT payment.id,booking.driverAllocated as driverId ,payment.booking_id as booking_id,payment.driver_payment as driver_payment FROM
-                     `payment` JOIN `booking` ON payment.booking_id=booking.id");
-                    $i = 0;
+                    $res = mysqli_query($con, "SELECT register.username,payment.id,booking.vehicleAllocated 
+                    as vehicleId ,payment.booking_id as booking_id,payment.driver_payment as driver_payment FROM
+                    `payment` JOIN `booking`JOIN `register` ON payment.booking_id=booking.id AND
+                     booking.user_id=register.id" );
+                   $i = 0;
 
-                    while ($r = mysqli_fetch_array($res)) {
-                      $i++;
-                      $bookingId = $r['booking_id'];
-                      $driverId = $r['driverId'];
-                      //select driver name from register table
-                      $res2 = mysqli_query($con, "SELECT username from `register` where id='$driverId'");
-                      $r2 = mysqli_fetch_array($res2);
-                      $driverName = $r2['username'];
+                   while ($r = mysqli_fetch_array($res)) {
+                     $i++;
+                     $bookingId = $r['booking_id'];
+                     $vehicleId = $r['vehicleId'];
+                     //select driver name from register table
+                     $res2 = mysqli_query($con, "SELECT vehicle.model_company,vehicle.driverAllocated ,register.username from `vehicle`
+                      JOIN `register` 
+                      where  vehicle.id='$vehicleId' and register.id=vehicle.u_id ");
+                     $r2 = mysqli_fetch_array($res2);
+                     $vehicleName = $r2['model_company'];
+                     $driverName= $r2['username'];
+                     $veh_allocated= $r2['driverAllocated'];
 
 
                       //select booking details
@@ -100,8 +108,13 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                       <tr>
                         <td><?php echo  $i; ?></td>
                         <td><?php echo $driverName; ?></td>
+                        <td><?php echo $vehicleName; ?></td>
                         <td><?php echo $bookingDetails; ?></td>
-
+                       
+                      
+                       
+                       
+                       
 
                         <td><?php echo $date; ?></td>
                         <td><?php echo  $total_time ?></td>

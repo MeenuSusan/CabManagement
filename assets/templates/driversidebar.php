@@ -7,15 +7,19 @@
         </div>
         
         <div class="menu">
-          <ul>
-            <i class="fa fa-bell"></i>
-            <i class="fa fa-envelope"></i>
+          <!--<ul>-->
+          <!--  <i class="fa fa-bell"></i>-->
+          <!--  <i class="fa fa-envelope"></i>-->
            
-          </ul>
+          <!--</ul>-->
         </div>
           <div class="dropdowns btn-group dropleft">
                 <button class="btn_img btn-default" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <?php echo' <img src="../assets/uploads/' . $photo . '" alt="" id="upload"accept="image/x-png,image/jpeg"/> '?>
+                <?php
+              if($photo == ""){
+                echo '<img src="../assets/images/dp.svg" alt="profile">';
+              }else{
+               echo' <img src="../assets/uploads/' . $photo . '" alt="" id="upload"accept="image/x-png,image/jpeg"/> ';}?>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" href="../pages/driverProfile.php">Profile</a>
@@ -30,7 +34,12 @@
       <section>
         <nav>
             <div class="profile">
-            <?php echo' <img src="../assets/uploads/' . $photo . '" alt="" id="upload"accept="image/x-png,image/jpeg"/> '?>
+              <?php
+              if($photo == ""){
+                echo '<img src="../assets/images/dp.svg" alt="profile">';
+              }else{
+              ?>
+            <?php echo' <img src="../assets/uploads/' . $photo . '" alt="" id="upload"accept="image/x-png,image/jpeg"/>';}?>
                 <h4><?php echo $uname ?></h4>
                 <h6><?php echo $email ?></h6>
                 <p>
@@ -95,7 +104,7 @@
                 </div>
               </div></li> -->
   
-              <li><button class="btn_1"><span><i class="fa fa-book"></span></i>Feedback</button></li>
+              <!--<li><button class="btn_1"><span><i class="fa fa-book"></span></i>Feedback</button></li>-->
   
               <li><div class="dropdown">
                 <button class="btn_1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

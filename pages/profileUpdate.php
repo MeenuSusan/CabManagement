@@ -114,9 +114,27 @@ if (isset($_SESSION["session_id"]) != session_id()) {
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <div class="container pro-con">
+        <!-- Alert msg -->
+                                <?php
+                                if (isset($_SESSION['profileUpdateMsg']) && isset($_SESSION['profileUpdateMsgHeading'])) {
+                                    echo '
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert" id="success" >
+                                                <h4>' . $_SESSION['profileUpdateMsgHeading'] . '</h4>
+                                                <div id="message">' . $_SESSION['profileUpdateMsg'] . '</div>
+                                                <button id="alertClose" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                        </div>
+                                        ';
+                                    unset($_SESSION['profileUpdateMsg']);
+                                    unset($_SESSION['profileUpdateMsgHeading']);
+                                }
+
+
+                                ?>
       <div class="row flex-lg-nowrap">
 
-        <form action="./updateProfileDetails.php" method="POST" enctype="multipart/form-data">
+        <form action="./updateAdminProfileDetails.php" method="POST" enctype="multipart/form-data">
           <?php
           // echo "<script>alert('$taskId');</script>";
           $sql = "SELECT * FROM register WHERE id = $currentUserId";

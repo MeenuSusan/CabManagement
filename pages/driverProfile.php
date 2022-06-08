@@ -144,6 +144,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                                   <span>Change Image</span>
                                 </label>
                                 <?php
+                              
                                 echo '
   <input id="file" type="file"name="uploadfile"  onchange="loadFile(event)"/>
   <img src="../assets/uploads/' . $propic . '" alt="" id="upload"accept="image/x-png,image/jpeg" width="200" />

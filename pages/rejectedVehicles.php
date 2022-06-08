@@ -70,7 +70,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                   </thead>
                   <tbody>
                     <?php
-                    $sql = "SELECT a.username,a.email,a.mobile,a.id,a.profile_pic,a.status,c.reg_no,c.model_company,c.fuel,c.seating_capacity,c.color,c.engine_no,c.chaise_no,c.reg_validity,c.insurence_scheme,c.insurence_validity,c.tax,c.pollution,c.vehicle_img,c.rc_doc
+                    $sql = "SELECT a.username,a.email,a.mobile,a.id,a.profile_pic,a.status,c.reg_no,c.model_company,c.fuel,c.seating_capacity,c.engine_no,c.chaise_no,c.reg_validity,c.insurence_scheme,c.insurence_validity,c.tax,c.pollution,c.vehicle_img,c.rc_doc
                   from vehicle c INNER JOIN register a WHERE  c.u_id =a.id AND a.status=0";
                     $res = mysqli_query($con, $sql);
                     if (mysqli_num_rows($res) > 0) {
@@ -84,7 +84,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                         $registration = $r['reg_no'];
                         $seating_capacity = $r['seating_capacity'];
                         $vehi_fuel = $r['fuel'];
-                        $vehi_color = $r['color'];
+                      
                         $vehi_engine_no = $r['engine_no'];
                         $vehi_chaise_no = $r['chaise_no'];
                         $vehi_reg_validity = $r['reg_validity'];

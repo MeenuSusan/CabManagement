@@ -22,36 +22,36 @@ include('dbcon.php');
                     $sql = "UPDATE `register` SET `password`='$new_password' WHERE `email`='$email'";
                     $result = mysqli_query($con, $sql);
                     if($result){
-                        $_SESSION['loginMessage'] = "Password Changed Successfully";
-                        //echo "<script> alert('changed')</script>";
-                        header("Location: ./adminDashboard.php");
-                        die();
+                        $_SESSION['profileUpdateMsg'] = 'Password Changed Successfully';
+                        $_SESSION['profileUpdateMsgHeading'] = 'Success';
+                        header("location: userChangePassword.php");
+                        
                     }
                     else{
-                        $_SESSION['loginMessage'] = "Password Change Failed";
-                       // echo "<script> alert('change fail')</script>";
-                        header("Location: ./adminChangePassword.php");
-                        die();
+                        $_SESSION['profileUpdateMsg'] = 'Password Change Failed';
+                        $_SESSION['profileUpdateMsgHeading'] = 'Error';
+                        header("location: userChangePassword.php");
+                        
                     }
                 }
                 else{
-                    $_SESSION['loginMessage'] = "Password Mismatch";
-                    //echo "<script> alert('mismatch')</script>";
-                    header("Location: ./adminChangePassword.php");
-                    die();
+                    $_SESSION['profileUpdateMsg'] = 'Password Mismatch';
+                    $_SESSION['profileUpdateMsgHeading'] = 'Error';
+                    header("location: userChangePassword.php");
+                    
                 }
             }
             else{
-                $_SESSION['loginMessage'] = "Current Password Mismatch";
-                //echo "<script> alert('current mismatch')</script>";
-                header("Location: ./adminChangePassword.php");
-                die();
+                $_SESSION['profileUpdateMsg'] = 'Current Password Mismatch';
+                $_SESSION['profileUpdateMsgHeading'] = 'Error';
+                header("location: userChangePassword.php");
+                
             }
         }
         else{
-            $_SESSION['loginMessage'] = "User Not Found";
-           // echo "<script> alert('user not found')</script>";
-            header("Location: ./adminChangePassword.php");
-            die();
+            $_SESSION['profileUpdateMsg'] = 'User not found';
+            $_SESSION['profileUpdateMsgHeading'] = 'Error';
+            header("location: userChangePassword.php");
+            
         }
     }

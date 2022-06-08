@@ -91,7 +91,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                     echo '
                 
                 <div class="card" style="width: 22rem;">
-                <img class="card-img-top" src="../assets/images/vehiclewagon.jpg" alt="Card image cap">
+                <img class="card-img-top" src="../assets/uploads/' . $vehicleImg . '" alt="Card image cap">
                 <div class="card-body p-0 m-0">
                     <div class="brand">
                         ' . $vehicleName . '

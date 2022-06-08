@@ -179,6 +179,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                                                 success: function(data2) {
                                                     if (data2 == "1") {
                                                         Swal.fire('Request send successfully!', '', 'success')
+                                                        window.location.href = "viewCabRequest.php";
                                                     } else if (data2 == "0") {
                                                         Swal.fire('Cannot have multiple request at a time', '', 'error')
                                                     } else {

@@ -7,6 +7,11 @@
         
         
           <div class="dropdowns btn-group dropleft">
+              
+              
+  
+      
+      
                 <button class="btn_img btn-default" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php echo' <img src="../assets/uploads/' . $photo . '" alt="" id="upload"accept="image/x-png,image/jpeg"/> '?>
                 </button>
@@ -42,6 +47,9 @@
               </button>
               <div class="dropdown-menu dmside" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="../pages/viewDriverRequest.php">View all Requests</a>
+              <a class="dropdown-item" href="../pages/viewAllDrivers.php">View all Drivers</a>
+              <a class="dropdown-item" href="../pages/viewAllDrivers.php">View all Approved Drivers</a>
+              <a class="dropdown-item" href="../pages/viewAllDrivers.php">View all Rejected Drivers</a>
               <a class="dropdown-item" href="../pages/manageCabRequest.php">Manage driver cab requests</a>
               <a class="dropdown-item" href="../pages/viewAllCabRequest.php">View all driver cab requests</a>
               
@@ -64,6 +72,7 @@
               </button>
               <div class="dropdown-menu dmside" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="../pages/viewVehicleRequest.php">View all Request</a>
+              <a class="dropdown-item" href="../pages/viewAllVehicle.php">View all Vehicles</a>
               <a class="dropdown-item" href="../pages/approvedVehicles.php">View Approved Request</a>
               <a class="dropdown-item" href="../pages/rejectedVehicles.php">View Rejected Request</a>
 

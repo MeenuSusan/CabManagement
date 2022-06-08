@@ -70,10 +70,12 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                   </thead>
                   <tbody>
                     <?php
-                    $res = mysqli_query($con, "SELECT a.username,a.email,a.mobile,a.id,a.profile_pic,a.status,c.reg_no,c.model_company,c.fuel,c.seating_capacity,c.color,c.engine_no,c.chaise_no,c.reg_validity,c.insurence_scheme,c.insurence_validity,c.tax,c.pollution,c.vehicle_img,c.rc_doc
+                    $res = mysqli_query($con, "SELECT a.username,a.email,a.mobile,a.id,a.profile_pic,a.status,c.reg_no,c.model_company,c.fuel,c.seating_capacity,c.engine_no,c.chaise_no,c.reg_validity,c.insurence_scheme,c.insurence_validity,c.tax,c.pollution,c.vehicle_img,c.rc_doc
                    from vehicle c INNER JOIN register a WHERE  c.u_id =a.id AND a.status=1");
 
+                    if(mysqli_num_rows($res)>0){
 
+                    
                     while ($r = mysqli_fetch_array($res)) {
                       $vehicle_id = $r['id'];
                       $owner_name = $r['username'];
@@ -83,7 +85,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                       $registration = $r['reg_no'];
                       $seating_capacity = $r['seating_capacity'];
                       $vehi_fuel = $r['fuel'];
-                      $vehi_color = $r['color'];
+                     
                       $vehi_engine_no = $r['engine_no'];
                       $vehi_chaise_no = $r['chaise_no'];
                       $vehi_reg_validity = $r['reg_validity'];
@@ -114,6 +116,12 @@ if (isset($_SESSION["session_id"]) != session_id()) {
             <?php
 
                     }
+                  }else{
+                    echo '<tr>
+                    <td colspan="5">No Requested Cabs</td>
+                    </tr>';
+                  }
+                 
             ?>
             </thead>
             <tbody>
@@ -200,17 +208,17 @@ if (isset($_SESSION["session_id"]) != session_id()) {
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
     <script>
-      function closeForm() {
-        document.getElementById("myForm").style.display = "none";
-      }
-      var el = document.getElementById('showmore');
-      el.onclick = showMores;
+    //   function closeForm() {
+    //     document.getElementById("myForm").style.display = "none";
+    //   }
+    //   var el = document.getElementById('showmore');
+    //   el.onclick = showMores;
 
 
-      function showMores() {
-        document.getElementById("myForm").style.display = "block";
-        return false;
-      }
+    //   function showMores() {
+    //     document.getElementById("myForm").style.display = "block";
+    //     return false;
+    //   }
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -59,7 +59,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Booking History</h3>
+                <h3 class="card-title">My Cab Requests</h3>
               </div>
 
               <div class="card-body">
@@ -92,6 +92,10 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                             </tr>';
                           }
                         }
+                      }else{
+                        echo '<tr>  
+                        <td colspan="2">No Requests</td>
+                        </tr>';
                       }
                       ?>
                     <tbody>
@@ -107,65 +111,6 @@ if (isset($_SESSION["session_id"]) != session_id()) {
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <script>
-      $(".cancelBooking").click(function() {
-        var id = $(this).val();
-        var btn = $(this);
-        $(this).attr("disabled", true);
-        $.ajax({
-          url: "cancelBooking.php",
-          method: "POST",
-          data: {
-            id: id,
-            status: 2
-          },
-          success: function(data) {
-            // swal({
-            //   title: "Success",
-            //   text: "Status Updated",
-            //   icon: "success",
-            //   button: "OK",
-            // });
-            btn.html("Cancelled");
-            window.location.reload();
-          }
-        });
-      });
-
-
-      $(".paynow").click(function() {
-        var id = $(this).val();
-        var btn = $(this);
-        var amt = btn.next().val();
-        $(this).attr("disabled", true);
-        var options = {
-          "key": "rzp_test_fXhZr7JtuE5nxg",
-          "amount": amt * 100,
-          "currency": "INR",
-          "name": "Ezy Cabs",
-          "description": "Test Transaction",
-          "image": "https://image.freepik.com/free-vector/logo-sample-text_355-558.jpg",
-          "handler": function(response) {
-            $.ajax({
-              type: 'post',
-              url: 'paynow.php',
-              data: {
-                paymentId: response.razorpay_payment_id,
-                bookingId: id,
-                paymentStatus: 1,
-              },
-              success: function(result) {
-                swal("Thank you!", "We will get back to you if required", "success");
-                btn.html("Paid");
-              }
-            });
-          }
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
-
-      });
-    </script>
   </body>
 
   </html>

@@ -57,7 +57,9 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                   <thead>
                     <tr>
                       <th>S.No</th>
-                      <th>Driver Name</th>
+                      <th>Owner Name</th>
+                      <th>Passenger Name</th>
+                      <th>Vehicle Name</th>
                       <th>Booking</th>
                       <th>Date</th>
                       <th>Ride Duration</th>
@@ -67,8 +69,8 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                   </thead>
                   <tbody>
                     <?php
-                    $res = mysqli_query($con, "SELECT payment.id,booking.vehicleAllocated as vehicleId ,payment.booking_id as booking_id,payment.vehicle_payment as driver_payment FROM
-                     `payment` JOIN `booking` ON payment.booking_id=booking.id");
+                    $res = mysqli_query($con, "SELECT register.username,payment.id,booking.vehicleAllocated as vehicleId ,payment.booking_id as booking_id,payment.vehicle_payment as driver_payment FROM
+                     `payment` JOIN `booking`JOIN `register` ON payment.booking_id=booking.id AND booking.user_id=register.id" );
                     $i = 0;
 
                     while ($r = mysqli_fetch_array($res)) {
@@ -76,9 +78,10 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                       $bookingId = $r['booking_id'];
                       $vehicleId = $r['vehicleId'];
                       //select driver name from register table
-                      $res2 = mysqli_query($con, "SELECT model_company from `vehicle` where  id='$vehicleId'");
+                      $res2 = mysqli_query($con, "SELECT vehicle.model_company,register.username from `vehicle` JOIN `register`  where  vehicle.id='$vehicleId' and register.id=vehicle.u_id ");
                       $r2 = mysqli_fetch_array($res2);
                       $vehicleName = $r2['model_company'];
+                      $vehicleowner= $r2['username'];
 
 
                       //select booking details
@@ -99,6 +102,10 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                     ?>
                       <tr>
                         <td><?php echo  $i; ?></td>
+                        <td><?php echo  $vehicleowner;?></td>
+                        <td><?php echo $r['username']; ?></td>
+                       
+                       
                         <td><?php echo $vehicleName; ?></td>
                         <td><?php echo $bookingDetails; ?></td>
 

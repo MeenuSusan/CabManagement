@@ -65,7 +65,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
               </div>
 
               <div class="card-body">
-                <form action="./bookingHistory.php" method="POST">
+                <form action="./printInvoice.php" method="POST">
                   <table class="table table-bordered">
                     <thead>
                       <tr>
@@ -80,7 +80,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                     </thead>
                     <tbody>
                       <?php
-                      $res = mysqli_query($con, "SELECT id, pickup, destination, TIME_FORMAT(booking_time, '%h:%i %p') as booking_time, date, amount, bookingStatus, payment_status, action, vehicleAllocated,distance  FROM booking WHERE  user_id=$user_session_id");
+                      $res = mysqli_query($con, "SELECT id, pickup, destination, TIME_FORMAT(booking_time, '%h:%i %p') as booking_time, date, amount, bookingStatus, payment_status, action, vehicleAllocated,distance  FROM booking WHERE  user_id=$user_session_id ORDER BY id desc");
                       if (mysqli_num_rows($res) > 0) {
                         while ($r = mysqli_fetch_array($res)) {
                           $bookingId = $r['id'];
@@ -112,7 +112,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
 
                             <td><?php echo $date; ?></td>
 
-                            <td><?php echo $amount; ?></td>
+                            <td>Rs <?php echo $amount; ?></td>
                             <!-- status 0 pending 1 Accepted -->
 
 
@@ -126,7 +126,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                                   <button class="btn btn-success" disabled>Completed</button><?php
                                                                                             } elseif ($action == 0) { ?>
                                   <button class="btn btn-info" disabled>Accepted</button><?php
-                                                                                            } else if ($action == 2) { ?>
+                                                                                            } else if ($action == 2) { 
                                   ?>
                                   <button class="btn btn-danger" disabled>Canceled</button><?php
                                                                                             }
@@ -146,8 +146,13 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                             <td>
                               <Button type="button" name="cancelBooking" id="cancelBooking" class="btn btn-danger cancelBooking" <?php echo $actionStatus; ?> value="<?php echo $bookingId ?>"><?php echo $actionStatusText; ?></Button>
                               <Button type="button" name="paynow" id="paynow" style="<?php echo $payBtnVisibility; ?>" class="btn btn-success paynow" <?php echo $payment_status; ?> value="<?php echo $bookingId ?>"><?php echo $payment_status_text; ?></Button>
+                               <input type="hidden" name="amt" id="amt" value="<?php echo $amount; ?>">
                               <button type="button" id="viewMore" class="btn btn-primary viewMore" value="<?php echo $bookingId; ?>"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                              <input type="hidden" name="amt" id="amt" value="<?php echo $amount; ?>">
+                             <?php 
+                             if($r['payment_status'] == 1){
+                                echo '<button type="submit" id="downloadInvoice" name="downloadInvoice" class="btn btn-primary downloadInvoice" value="'.$bookingId.'"><i class="fa fa-download" aria-hidden="true"></i></button>';
+                             }
+                             ?>
                             </td>
 
 

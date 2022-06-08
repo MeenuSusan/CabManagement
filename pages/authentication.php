@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('dbcon.php');
+include 'sendEmail.php';
 //if (isset($_SESSION["session_id"]) == session_id()) {
 // header("Location: ../dashboard.php");
  //die(); } else {
@@ -15,11 +16,7 @@ include('dbcon.php');
     }
 
     
-    if (isset($_POST['btnConfirm'])) {
-        confirmBooking();
-       
-
-     }
+ 
 
 
 
@@ -35,10 +32,12 @@ include('dbcon.php');
             while($t=mysqli_fetch_array($result1))
             {
                 $driverID=$t['id'];
+                $email = $t['email'];
             }
             $driverDB="INSERT INTO `driver`(`d_id`,`address`, `gender`, `dob`, `license_no`, `license_validity`, `licence_doc`) VALUES
              ('$driverID','$dri_address','$gender','$dob','$li_no','$lvd','$drili')";
              $driverDBResult = mysqli_query($con, $driverDB);
+             sendMail($email, "Welcome", "You are successfully registered. Please wait for the approval");
              header("Location: ./login.php");
         }
         
@@ -47,21 +46,23 @@ include('dbcon.php');
 
      //Register vehicle
      if (isset($_POST['reg_vehicle'])) {
-       
-
+        
+        $vehpic=$_FILES['vehi_img']['name'];
         if(register(3,2))
         {   
+           
             extract($_POST);
-            //echo '<script>alert("g6666gh")</script>';
+           
             $vehicleID="SELECT * FROM `register`ORDER BY `id`";
             $result2=mysqli_query($con,$vehicleID);
-           // echo '<script>alert("gh888gh")</script>';
+          
             while($f=mysqli_fetch_array($result2))
             {
                 $vehicleID=$f['id'];
+                $email = $f['email'];
                
             }
-           // echo '<script>alert("g999gh")</script>';
+          
 
           
            move_uploaded_file($_FILES['vehi_img']['tmp_name'],"../assets/uploads/".$_FILES['vehi_img']['name']);
@@ -69,11 +70,12 @@ include('dbcon.php');
            $result=mysqli_query($con,$insertImg);
           
 
-            $vehicleDB="INSERT INTO `vehicle`(`u_id`, `reg_no`, `model_company`, `fuel`, `seating_capacity`, `vehicle_img`, `engine_no`, `chaise_no`, `reg_validity`, `insurence_scheme`, `insurence_validity`, `tax`, `pollution`,`rc_doc`) 
-            VALUES ('$vehicleID','$reg_no','$company','$fuels','$seatcap','$propic','$engine','$chaise','$reg_val','$ins_scheme','$ins_val','$tax_val','$po_val','$rc_doc')";
+            $vehicleDB="INSERT INTO `vehicle`(`u_id`, `reg_no`, `model_company`, `fuel`, `seating_capacity`, `vehicle_img`, `engine_no`, `chaise_no`, `reg_validity`, `insurence_scheme`, `insurence_validity`, `tax`, `pollution`,`rc_doc`,`category`) 
+            VALUES ('$vehicleID','$reg_no','$company','$fuels','$seatcap','$vehpic','$engine','$chaise','$reg_val','$ins_scheme','$ins_val','$tax_val','$po_val','$rc_doc','$category')";
              $vehicleDBResult = mysqli_query($con, $vehicleDB);
              if($vehicleDBResult)
              {
+                 sendMail($email, "Welcome", "You are successfully registered. Please wait for the approval");
                 header("Location: ./login.php");
              }
              else
@@ -81,6 +83,8 @@ include('dbcon.php');
                 echo mysqli_errno($con);
              }
              //header("Location: ./login.php");
+        }else{
+            echo '<script>alert("g990000h")</script>';
         }
     }
 
@@ -114,7 +118,9 @@ include('dbcon.php');
                     header("Location:./adminDashboard.php");
                     die();
                 } else if ($userData['type'] == 1) {
+                    
                     header("Location: ./userDashboard.php");
+                    
                     die();
                 }
                 else if ($userData['type'] == 2) {
@@ -192,11 +198,14 @@ function register($t,$s)
                     $password = md5($password);
                    
                     //Insert into database
-                    $insertDb = "INSERT INTO `register`(`username`, `mobile`, `email`, `password`, `type`,`status`) VALUES ('$uname','$mobileno','$email','$password','$t','$s')";
+                    $insertDb = "INSERT INTO `register`(`username`, `mobile`, `email`, `password`,`type`,`status`) VALUES
+                     ('$uname','$mobileno','$email','$password','$t','$s')";
                     $insertDbResult = mysqli_query($con, $insertDb);
+                   
                     if ($insertDbResult) {
                     
                         $_SESSION['loginMessage'] = "Register Success";
+                        
                         return true;
                         die();
                     } else {
@@ -223,42 +232,6 @@ function register($t,$s)
     }
 }
 
-function confirmBooking(){
-    
-    include('dbcon.php');
-        extract($_POST);
-        if(isset ($_POST['btnBook'])){
-            echo"<script>alert('dbdsnvbdfkjbk')</script>";
-            $src=$_POST['src'];
-            $dst=$_POST['dst'];
-            $tym=$_POST['tym'];
-            $dd=$_POST['dd'];
-           
-        //echo '<script>alert("g6666gh")</script>';
-        $bookingID="SELECT * FROM `register`ORDER BY `id`";
-        $result2=mysqli_query($con,$bookingID);
-      
-        while($f=mysqli_fetch_array($result2))
-        {
-            $bookingID=$f['id'];
-           
-        }
-       // echo '<script>alert("g999gh")</script>';
-        $bookingDB="INSERT INTO `booking`(`b_id`, `pickup`, `destination`, `time`, `date`,`bookingStatus`)
-         VALUES ('$bookingID','$src','$dst','$tym','$dd',2)";
-         $bookingDBResult = mysqli_query($con, $bookingDB);
-         if($bookingDBResult)
-         {
-            return true;
-         }
-         else
-         {
-            return false;
-         }
-         
 
-        }
-       
-   }
 
    

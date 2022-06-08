@@ -1,5 +1,21 @@
+ <!-- Alert msg -->
+ <?php
+                                if (isset($_SESSION['profileUpdateMsg']) && isset($_SESSION['profileUpdateMsgHeading'])) {
+                                    echo '
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert" id="success" >
+                                                <h4>' . $_SESSION['profileUpdateMsgHeading'] . '</h4>
+                                                <div id="message">' . $_SESSION['profileUpdateMsg'] . '</div>
+                                                <button id="alertClose" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                        </div>
+                                        ';
+                                    unset($_SESSION['profileUpdateMsg']);
+                                    unset($_SESSION['profileUpdateMsgHeading']);
+                                }
 
 
+                                ?>
 
 
     

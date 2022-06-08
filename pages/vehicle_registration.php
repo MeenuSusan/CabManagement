@@ -274,6 +274,18 @@ function engineNumber() {
               onkeyup="return VehicleCompany();" />
             <span id="veh_company_error"></span>
         </div>
+
+        <span></span>
+        <div class="input-group">
+                <label for="packagesize"><b>Vehicle Category</b></label>
+                <select name="category" id="seat" style="width:100%;" >
+                    <option value=" " disabled selected>Select</option>
+                    <option value="1">Budget</option>
+                    <option value="2">Executive</option>
+                    <option value="3">Luxury</option>
+                  
+                </select><span></span>
+                </div>
         <span></span>
         <div class="input-group">
             <label for="pickupaddress"><b>Engine Number</b></label>
@@ -284,17 +296,7 @@ function engineNumber() {
               onkeyup="return engineNumber();" />
             <span id="engine_number_error"></span>
         </div>
-        <span></span>
-
-        <div class="input-group">
-            <label for="pickupaddress"><b>chaise Number</b></label>
-            <input type="text"
-             name="chaise" 
-             id="chaise_number" 
-             placeholder="J45L365H78" 
-              onkeyup="return chaiseNumber();" />
-              <span id="chaise_number_error"></span>
-        </div>
+     
        
                 <div class="btns-group">
                     <a href="#" class="btn btn-prev">Previous</a>
@@ -316,6 +318,20 @@ function engineNumber() {
                 <option value="Lpg">Lpg</option>
 
             </select><span></span>
+</div>
+
+
+
+<span></span>
+
+<div class="input-group">
+    <label for="pickupaddress"><b>chaise Number</b></label>
+    <input type="text"
+     name="chaise" 
+     id="chaise_number" 
+     placeholder="J45L365H78" 
+      onkeyup="return chaiseNumber();" />
+      <span id="chaise_number_error"></span>
 </div>
         <span></span>
 

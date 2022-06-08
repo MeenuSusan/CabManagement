@@ -54,10 +54,11 @@ if (isset($_SESSION["session_id"]) != session_id()) {
         <div class="form-container_BOOK" id="myForm">
 
             <?php
-            $vehi = mysqli_query($con, "SELECT a.username,a.email,a.mobile,a.id,a.profile_pic,a.status,c.u_id,c.reg_no,c.model_company,c.fuel,c.seating_capacity,c.color,c.engine_no,c.chaise_no,c.reg_validity,c.insurence_scheme,c.insurence_validity,c.tax,c.pollution,c.vehicle_img,c.rc_doc
+            $vehi = mysqli_query($con, "SELECT a.username,a.email,a.mobile,a.id,a.profile_pic,a.status,c.u_id,c.reg_no,c.model_company,c.fuel,c.seating_capacity,c.engine_no,c.chaise_no,c.reg_validity,c.insurence_scheme,c.insurence_validity,c.tax,c.pollution,c.vehicle_img,c.rc_doc
 from vehicle c INNER JOIN register a WHERE  c.u_id =a.id AND c.u_id ='$t'");
-
-            while ($row = mysqli_fetch_array($vehi)) { ?>
+           
+            while ($row = mysqli_fetch_array($vehi)) {
+                $vehicleImg=$row['vehicle_img']; ?>
                 <table class="table table-bordered">
                     <thead>
 
@@ -82,11 +83,12 @@ from vehicle c INNER JOIN register a WHERE  c.u_id =a.id AND c.u_id ='$t'");
                             <td><?php echo $row["fuel"]; ?></td>
                         </tr>
 
-                        <tr>
+                        <tr> 
+                            <th scope="col">Pollution Validity</th>
+                            <td><?php echo $row["pollution"]; ?></td>
                             <th scope="col">Seating Capacity</th>
                             <td><?php echo $row["seating_capacity"]; ?></td>
-                            <th scope="col">Color</th>
-                            <td><?php echo $row["color"]; ?></td>
+                            
                         </tr>
 
                         <tr>
@@ -111,18 +113,19 @@ from vehicle c INNER JOIN register a WHERE  c.u_id =a.id AND c.u_id ='$t'");
                         </tr>
 
                         <tr>
-                            <th scope="col">Pollution Validity</th>
-                            <td><?php echo $row["pollution"]; ?></td>
+                           
+                            <th scope="col">Image</th>
+                            <td width="200"><?php echo '<img class="card-img-top" src="../assets/uploads/' . $vehicleImg . '" alt="vehicle-img">' ?></td>
                             <th rolspan="2" scope="col">Status</th>
                             <td>
                                 <?php
 
                                 if ($row['status'] == 1) { ?>
-                                    <button class="btn1 btn-success btn-block">Approved</button><?php
+                                    <button class="btn1 btn-success btn-block btn-sm " disabled>Approved</button><?php
                                                                                             } elseif ($row['status'] == 0) { ?>
-                                    <button class="btn1 btn-danger btn-block">Rejected</button><?php
+                                    <button class="btn1 btn-danger btn-block btn-sm" disabled>Rejected</button><?php
                                                                                             } elseif ($row['status'] == 2) { ?>
-                                    <button class="btn1 btn-warning btn-block">Pending</button><?php
+                                    <button class="btn1 btn-warning btn-block btn-sm" disabled>Pending</button><?php
                                                                                             } else {
                                                                                                 echo "Not Approved";
                                                                                             }
@@ -136,7 +139,7 @@ from vehicle c INNER JOIN register a WHERE  c.u_id =a.id AND c.u_id ='$t'");
                         <td></td>
 
                         <td><button class="btn btn-danger btn-block rejbtn">Reject</button></td>
-                        <td><a href="./approvedVehicles.php"><button class="btn btn-default btn-block ">Close</button></a></td>
+                        <td><a href="./approvedVehicles.php"><button class="btn btn-dark btn-block ">Close</button></a></td>
                         </tr>
                     </thead>
                     <?php
