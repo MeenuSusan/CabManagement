@@ -57,7 +57,7 @@ if (isset($_SESSION["session_id"]) != session_id()) {
                 left: -4vw;
             }
 
-            .vehcard {}
+          
 
             .mycab img {
                 width: 22rem;
